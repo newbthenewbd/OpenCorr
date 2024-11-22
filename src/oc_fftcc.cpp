@@ -195,12 +195,14 @@ namespace opencorr
 			{
 				//fill reference subset
 				Point2D ref_point(poi->x + c - subset_radius_x, poi->y + r - subset_radius_y);
+				if ((int)ref_point.x < 0 || (int)ref_point.x >= ref_img->width || (int)ref_point.y < 0 || (int)ref_point.y >= ref_img->height) return;
 				float value = ref_img->eg_mat((int)ref_point.y, (int)ref_point.x);
 				current_instance->ref_subset[r * subset_width + c] = value;
 				ref_mean += value;
 
 				//fill the target subset with initial guess of displacement
 				Point2D tar_point = ref_point + initial_displacement;
+				if ((int)tar_point.x < 0 || (int)tar_point.x >= tar_img->width || (int)tar_point.y < 0 || (int)tar_point.y >= tar_img->height) return;
 				value = tar_img->eg_mat((int)tar_point.y, (int)tar_point.x);
 				current_instance->tar_subset[r * subset_width + c] = value;
 				tar_mean += value;
